@@ -50,7 +50,6 @@ function wp_instagram_json_phpversioncheck() {
 function activate_wp_instagram_json() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-instagram-json-activator.php';
 	WP_Instagram_JSON_Activator::activate();
-	// new WP_Instagram_JSON_Activator();
 }
 
 /**

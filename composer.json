@@ -1,5 +1,5 @@
 {
-  "name": "sectsect/sectsect/wp-instagram-json",
+  "name": "sectsect/wp-instagram-json",
   "description": "Generate JSON file with object data returned from Instagram API for Sandbox Mode.",
   "keywords": ["github", "wordpress", "plugin", "Instagram", "json"],
   "type": "wordpress-plugin",

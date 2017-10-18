@@ -26,14 +26,14 @@
  * @return void "description".
  */
 function wp_instagram_json_var() {
-	$url = plugin_dir_url( dirname( __FILE__ ) ) . "json/instagram.json";
-	$cache = get_option('_transient_wp_instagram_json');
+	$url = plugin_dir_url( dirname( __FILE__ ) ) . 'json/instagram.json';
+	$cache = get_option( '_transient_wp_instagram_json' );
 	$datetime = ( $cache ) ? $cache : false;
 	$array = array(
-		"json_url"      => $url,
-		"generate_time" => $datetime,
+		'json_url'      => $url,
+		'generate_time' => $datetime,
 	);
-	$obj = json_encode($array);
-	echo "<script>var wp_ig_json = " . $obj . ";</script>";
+	$obj = json_encode( $array );
+	echo '<script>var wp_ig_json = ' . $obj . ';</script>';
 }
-add_action ( 'wp_head', 'wp_instagram_json_var' );
+add_action( 'wp_head', 'wp_instagram_json_var' );
