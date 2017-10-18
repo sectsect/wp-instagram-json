@@ -9,4 +9,5 @@ node_modules/
 .sass-cache
 .ftpconfig
 vendor/
-json/
+json/*
+!.gitkeep
