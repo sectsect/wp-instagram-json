@@ -112,6 +112,95 @@
 					</tr>
 				</tbody>
 			</table>
+
+			<h2>AWS S3 Settings</h2>
+			<hr>
+			<table class="form-table">
+				<tbody>
+					<tr>
+						<th scope="row">
+							<label for="wp_instagram_json_aws_credentials_key"><?php _e( 'S3 Upload', 'wp_instagram_json' ); ?></label>
+						</th>
+						<td>
+							<input type="checkbox" id="wp_instagram_json_s3_enable" class="regular-text" name="wp_instagram_json_s3_enable"<?php if ( get_option('wp_instagram_json_s3_enable') ): ?> checked<?php endif; ?> style="opacity: 0;">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="wp_instagram_json_aws_credentials_key"><?php _e( 'AWS credentials key', 'wp_instagram_json' ); ?></label>
+						</th>
+						<td>
+							<input type="text" id="wp_instagram_json_aws_credentials_key" class="regular-text" name="wp_instagram_json_aws_credentials_key" value="<?php echo esc_html( get_option('wp_instagram_json_aws_credentials_key') ); ?>" style="width: 420px;">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="wp_instagram_json_aws_credentials_secret"><?php _e( 'AWS credentials secret', 'wp_instagram_json' ); ?></label>
+						</th>
+						<td>
+							<input type="text" id="wp_instagram_json_aws_credentials_secret" class="regular-text" name="wp_instagram_json_aws_credentials_secret" value="<?php echo esc_html( get_option('wp_instagram_json_aws_credentials_secret') ); ?>" style="width: 420px;">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="wp_instagram_json_s3_region"><?php _e( 'Region', 'wp_instagram_json' ); ?></label>
+						</th>
+						<td>
+							<?php
+							$regions = array(
+								'us-east-2' => 'us-east-2',
+								'us-east-1' => 'us-east-1',
+								'us-west-1' => 'us-west-1',
+								'us-west-2' => 'us-west-2',
+								'ap-south-1' => 'ap-south-1',
+								'ap-northeast-2' => 'ap-northeast-2',
+								'ap-southeast-1' => 'ap-southeast-1',
+								'ap-southeast-2' => 'ap-southeast-2',
+								'ap-northeast-1' => 'ap-northeast-1',
+								'ca-central-1' => 'ca-central-1',
+								'eu-central-1' => 'eu-central-1',
+								'eu-west-1' => 'eu-west-1',
+								'eu-west-2' => 'eu-west-2',
+								'sa-east-1' => 'sa-east-1',
+							);
+							?>
+							<select id="wp_instagram_json_s3_region" name="wp_instagram_json_s3_region" style="width: 150px;">
+								<option value=""><?php _e( 'Select Region', 'wp_instagram_json' ); ?></option>
+								<?php foreach ( $regions as $region ): ?>
+									<?php $selected = ( get_option('wp_instagram_json_s3_region') == $region ) ? "selected" : ""; ?>
+									<option value="<?php echo $region; ?>" <?php echo $selected; ?>><?php echo $region; ?></option>
+								<?php endforeach; ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="wp_instagram_json_s3_bucket"><?php _e( 'Bucket name', 'wp_instagram_json' ); ?></label>
+						</th>
+						<td>
+							<input type="text" id="wp_instagram_json_s3_bucket" class="regular-text" name="wp_instagram_json_s3_bucket" value="<?php echo esc_html( get_option('wp_instagram_json_s3_bucket') ); ?>" style="width: 150px;">
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="wp_instagram_json_s3_path"><?php _e( 'The Path on S3', 'wp_instagram_json' ); ?></label>
+						</th>
+						<td>
+							<code>{Bucket name}/</code> <input type="text" id="wp_instagram_json_s3_path" class="regular-text" name="wp_instagram_json_s3_path" value="<?php echo esc_html( get_option('wp_instagram_json_s3_path') ); ?>" placeholder="path/to" style="width: 170px;"> <code>/instagram.json</code>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="wp_instagram_json_s3_custom_url"><?php _e( 'Custom URL (CDN)', 'wp_instagram_json' ); ?></label>
+						</th>
+						<td>
+							<input type="text" id="wp_instagram_json_s3_custom_url" class="regular-text" name="wp_instagram_json_s3_custom_url" value="<?php echo esc_html( get_option('wp_instagram_json_s3_custom_url') ); ?>" style="width: 420px;">
+							<p style="font-size: 10px; color: #aaa;"><?php _e( 'Default:', 'wp_instagram_json' ); ?> https://{bucket}.s3.amazonaws.com</p>
+							<p style="font-size: 10px; color: #aaa;"><?php _e( 'without Trailing Slash', 'wp_instagram_json' ); ?></p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
 			<?php submit_button(); ?>
 		</form>
 	</section>

@@ -93,6 +93,9 @@ add_filter( 'plugin_row_meta', 'wp_instagram_json_row_meta', 10, 4 );
 
 if ( wp_instagram_json_phpversioncheck() ) {
 	require_once plugin_dir_path( __FILE__ ) . 'functions/functions.php';
+	if ( wp_instagram_json_is_s3() && file_exists( plugin_dir_path( __FILE__ ) . 'composer/vendor/autoload.php' ) ) {
+		require_once plugin_dir_path( __FILE__ ) . 'composer/vendor/autoload.php';
+	}
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-wp-instagram-json.php';
 	new WP_Instagram_JSON();
 	require_once plugin_dir_path( __FILE__ ) . 'includes/admin.php';

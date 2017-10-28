@@ -1,7 +1,7 @@
 # <img src="https://github-sect.s3-ap-northeast-1.amazonaws.com/logo.svg" width="28" height="auto"> WP Instagram JSON
 [![Build Status](https://travis-ci.org/sectsect/wp-instagram-json.svg?branch=master)](https://travis-ci.org/sectsect/wp-instagram-json) [![PHP-Eye](https://php-eye.com/badge/sectsect/wp-instagram-json/tested.svg?style=flat)](https://php-eye.com/package/sectsect/wp-instagram-json) [![Latest Stable Version](https://poser.pugx.org/sectsect/wp-instagram-json/v/stable)](https://packagist.org/packages/sectsect/wp-instagram-json)  [![License](https://poser.pugx.org/sectsect/wp-instagram-json/license)](https://packagist.org/packages/sectsect/wp-instagram-json)
 
-### Generate JSON file with object data returned from Instagram API (for Sandbox Mode).
+### Generate JSON file with object data returned from Instagram API (for Sandbox Mode). Also upload the JSON file to AWS S3 (optional).
 
 ## Why Sandbox Mode?
 
@@ -33,7 +33,8 @@ So I have developed this Plugin to generate JSON files at scheduled times for th
 
 ## Requirements
 
-- PHP 5.4+
+- PHP 5.5+
+- [Composer](https://getcomposer.org/)
 
 ## Installation
 
@@ -43,11 +44,17 @@ So I have developed this Plugin to generate JSON files at scheduled times for th
   $ git clone git@github.com:sectsect/wp-instagram-json.git
   ```
 
-2. Activate the plugin through the 'Plugins' menu in WordPress.<br>
+2. Install composer packages
+  ```sh
+  $ cd wp-instagram-json/functions/composer/
+  $ composer install
+  ```
 
-3. Go to `Instagram` on your wordpress admin panel.
+3. Activate the plugin through the 'Plugins' menu in WordPress.<br>
 
-4. Set the following values and save it once.
+4. Go to `Instagram` on your wordpress admin panel.
+
+5. Set the following values and save it once.
   - Cache Expire `(min)`
   - Count `(Range: 1-20)`
   - Account Name
@@ -59,7 +66,8 @@ A file will be generated at the time of the first web access into the following 
 /wp-content/plugins/wp-instagram-json/json/instagram.json
 ```
 
-Now, you can get the URL with javascript variable `wp_ig_json.json_url`.
+Now, you can get the URL with javascript variable `wp_ig_json.json_url`.  
+:pushpin: If S3 Upload is enabled, this URL is automatically replaced.
 
 ## Saved Object Structure
 ```json
@@ -193,6 +201,8 @@ See [Usage Example](#usage-example).
 
 - WordPress built-in cron has some problems with the specific environment.   
 In order to avoid those risks, this Plugin uses periodic processing for WordPress [Transient](https://codex.wordpress.org/Transients_API) instead of `WP-Cron`.
+
+- This plugin internally uses [AWS SDK for PHP](https://github.com/aws/aws-sdk-php) v3.
 
 ## Usage Example
 
