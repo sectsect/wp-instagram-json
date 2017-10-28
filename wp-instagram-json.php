@@ -12,7 +12,7 @@
  * @package         WP_Instagram_JSON
  */
 
-$wp_instagram_json_minimalrequiredphpversion = '5.3';
+$wp_instagram_json_minimalrequiredphpversion = '5.5';
 
 /**
  * Check the PHP version and give a useful error message if the user's version is less than the required version.

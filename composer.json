@@ -4,7 +4,7 @@
   "keywords": ["github", "wordpress", "plugin", "Instagram", "json"],
   "type": "wordpress-plugin",
   "require": {
-    "php": ">=5.3"
+    "php": ">=5.5"
   },
   "license": "GPL-3.0+",
   "authors": [
