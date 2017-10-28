@@ -34,7 +34,7 @@ class WP_Instagram_JSON {
 	public function __construct() {
 		$this->generate_json_file();
 		if ( wp_instagram_json_is_s3() ) {
-			$this->putObject_to_s3();
+			$this->put_object_to_s3();
 		}
 	}
 
@@ -80,7 +80,7 @@ class WP_Instagram_JSON {
 	 *
 	 * @return void "description".
 	 */
-	public function putObject_to_s3() {
+	public function put_object_to_s3() {
 		$sdkconfig = [
 			'region'      => get_option( 'wp_instagram_json_s3_region' ),
 			'version'     => 'latest',
@@ -89,7 +89,7 @@ class WP_Instagram_JSON {
 				'secret'  => get_option( 'wp_instagram_json_aws_credentials_secret' ),
 			],
 		];
-		$sdk = new Aws\Sdk($sdkconfig);
+		$sdk = new Aws\Sdk( $sdkconfig );
 		$s3 = $sdk->createS3();
 		$bucketname = get_option( 'wp_instagram_json_s3_bucket' );
 		$keyname = get_option( 'wp_instagram_json_s3_path' ) . '/instagram.json';
@@ -98,7 +98,7 @@ class WP_Instagram_JSON {
 			'Bucket' => $bucketname,
 			'Key' => $keyname,
 			'SourceFile' => $srcfile,
-			'ContentType'=> 'application/json',
+			'ContentType' => 'application/json',
 		]);
 		$result = $result->toArray();
 		$object = json_decode( json_encode( $result ) );
