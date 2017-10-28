@@ -33,8 +33,30 @@ add_action('admin_menu', 'wp_instagram_json_menu');
  * @return void "description".
  */
 function wp_instagram_json_menu() {
-	add_menu_page('Instagram', 'Instagram', 5, 'instagram_menu', 'wp_instagram_json_options_page');
+	$page_hook_suffix = add_menu_page('Instagram', 'Instagram', 5, 'instagram_menu', 'wp_instagram_json_options_page');
+	add_action('admin_print_styles-' . $page_hook_suffix, 'wp_instagram_json_admin_styles');
+    add_action('admin_print_scripts-' . $page_hook_suffix, 'wp_instagram_json_admin_scripts');
 	add_action('admin_init', 'register_wp_instagram_json_settings');
+}
+
+/**
+ * Style setting.
+ *
+ * @return void "description".
+ */
+function wp_instagram_json_admin_styles() {
+	wp_enqueue_style('bootstrap-switch', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/css/bootstrap3/bootstrap-switch.min.css', array());
+}
+
+/**
+ * Script setting.
+ *
+ * @return void "description".
+ */
+function wp_instagram_json_admin_scripts() {
+    wp_enqueue_script('bootstrap', 'https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js', array('jquery'));
+	wp_enqueue_script('bootstrap-switch', 'https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.4/js/bootstrap-switch.min.js', array('bootstrap'));
+    wp_enqueue_script('script', plugin_dir_url( dirname( __FILE__ ) ) . 'admin/assets/js/script.js', array('bootstrap-switch'));
 }
 
 /**
@@ -47,6 +69,13 @@ function register_wp_instagram_json_settings() {
 	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_count');
 	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_account_name');
 	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_access_token');
+	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_s3_enable');
+	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_aws_credentials_key');
+	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_aws_credentials_secret');
+	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_s3_region');
+	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_s3_bucket');
+	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_s3_path');
+	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_s3_custom_url');
 }
 
 /**

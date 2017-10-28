@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Instagram JSON\n"
-"POT-Creation-Date: 2017-10-17 18:49+0900\n"
-"PO-Revision-Date: 2017-10-17 18:50+0900\n"
+"POT-Creation-Date: 2017-10-29 02:14+0900\n"
+"PO-Revision-Date: 2017-10-29 02:15+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -65,6 +65,46 @@ msgstr ""
 msgid "Access Token"
 msgstr ""
 
+#: admin/index.php:122
+msgid "S3 Upload"
+msgstr ""
+
+#: admin/index.php:130
+msgid "AWS credentials key"
+msgstr ""
+
+#: admin/index.php:138
+msgid "AWS credentials secret"
+msgstr ""
+
+#: admin/index.php:146
+msgid "Region"
+msgstr ""
+
+#: admin/index.php:168
+msgid "Select Region"
+msgstr ""
+
+#: admin/index.php:178
+msgid "Bucket name"
+msgstr ""
+
+#: admin/index.php:186
+msgid "The Path on S3"
+msgstr ""
+
+#: admin/index.php:194
+msgid "Custom URL (CDN)"
+msgstr ""
+
+#: admin/index.php:198
+msgid "Default:"
+msgstr ""
+
+#: admin/index.php:199
+msgid "without Trailing Slash"
+msgstr ""
+
 #: wp-instagram-json.php:25
 msgid ""
 "Error: plugin \"WP Instagram JSON\" requires a newer version of PHP to be "
@@ -77,4 +117,26 @@ msgstr ""
 
 #: wp-instagram-json.php:27
 msgid "Your server's PHP version: "
+msgstr ""
+
+#. Plugin Name of the plugin/theme
+msgid "WP Instagram JSON"
+msgstr ""
+
+#. Plugin URI of the plugin/theme
+msgid "https://github.com/sectsect/wp-instagram-json"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Generate JSON file with object data returned from Instagram API for Sandbox "
+"Mode"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "SECT INTERACTIVE AGENCY"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.ilovesect.com/"
 msgstr ""

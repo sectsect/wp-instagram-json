@@ -9,6 +9,10 @@
  * @subpackage WP_Instagram_JSON/includes
  */
 
+use Aws\S3\S3Client;
+use Aws\Exception\AwsException;
+use Aws\S3\Exception\S3Exception;
+
 /**
  * Fired during plugin activation.
  *
@@ -29,6 +33,9 @@ class WP_Instagram_JSON {
 	 */
 	public function __construct() {
 		$this->generate_json_file();
+		if ( wp_instagram_json_is_s3() ) {
+			$this->putObject_to_s3();
+		}
 	}
 
 	/**
@@ -66,5 +73,35 @@ class WP_Instagram_JSON {
 
 			set_transient( $tname, $date, 60 * get_option( 'wp_instagram_json_cache_time' ) );
 		}
+	}
+
+	/**
+	 * Uploas JSON file to AWS S3.
+	 *
+	 * @return void "description".
+	 */
+	public function putObject_to_s3() {
+		$sdkconfig = [
+			'region'      => get_option( 'wp_instagram_json_s3_region' ),
+			'version'     => 'latest',
+			'credentials' => [
+				'key'     => get_option( 'wp_instagram_json_aws_credentials_key' ),
+				'secret'  => get_option( 'wp_instagram_json_aws_credentials_secret' ),
+			],
+		];
+		$sdk = new Aws\Sdk($sdkconfig);
+		$s3 = $sdk->createS3();
+		$bucketname = get_option( 'wp_instagram_json_s3_bucket' );
+		$keyname = get_option( 'wp_instagram_json_s3_path' ) . '/instagram.json';
+		$srcfile = plugin_dir_path( dirname( __FILE__ ) ) . 'json/instagram.json';
+		$result = $s3->putObject([
+			'Bucket' => $bucketname,
+			'Key' => $keyname,
+			'SourceFile' => $srcfile,
+			'ContentType'=> 'application/json',
+		]);
+		$result = $result->toArray();
+		$object = json_decode( json_encode( $result ) );
+		$statuscode = $object->{'@metadata'}->statusCode;
 	}
 }
