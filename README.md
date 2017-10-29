@@ -28,7 +28,7 @@ For this reason, it may be more intuitive to think of it as “sideline mode”.
 via @ https://www.instagram.com/developer/sandbox/
 
 
-So I have developed this Plugin to generate JSON files at scheduled times for the data returned from Instagram API for those conditions. This is also for performance optimization.
+#### So I have developed this Plugin to generate JSON files at scheduled times for the data returned from Instagram API under those conditions. And also I added a feature to upload that JSON file to AWS S3. This is also for performance optimization :tada:  
 
 
 ## Requirements
@@ -60,6 +60,15 @@ So I have developed this Plugin to generate JSON files at scheduled times for th
   - Account Name
   - Access Token :warning: You need get Instagram API Access Token  in advance.
 
+6. If you wanna upload JSON files to AWS S3, also fill in the following items (optional).
+  - S3 Upload `(ON/OFF Toggle)`
+  - AWS credentials key
+  - AWS credentials secret
+  - Region
+  - Bucket name
+  - The Path on S3
+  - Custom URL (CDN)
+
 That's it:ok_hand:  
 A file will be generated at the time of the first web access into the following location.  
 ```
@@ -67,7 +76,7 @@ A file will be generated at the time of the first web access into the following 
 ```
 
 Now, you can get the URL with javascript variable `wp_ig_json.json_url`.  
-:pushpin: If S3 Upload is enabled, this URL is automatically replaced.
+:pushpin: If S3 Upload is enabled, this URL is automatically replaced to URL for S3.
 
 ## Saved Object Structure
 ```json
