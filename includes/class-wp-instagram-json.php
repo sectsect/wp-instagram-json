@@ -33,7 +33,7 @@ class WP_Instagram_JSON {
 	 */
 	public function __construct() {
 		$this->generate_json_file();
-		if ( wp_instagram_json_is_s3() ) {
+		if ( wp_instagram_json_is_s3() && file_exists( plugin_dir_path( dirname( __FILE__ ) ) . 'json/instagram.json' ) ) {
 			$this->put_object_to_s3();
 		}
 	}
