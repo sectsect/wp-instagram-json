@@ -1,8 +1,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: WP Instagram JSON\n"
-"POT-Creation-Date: 2017-10-29 02:14+0900\n"
-"PO-Revision-Date: 2017-10-29 02:15+0900\n"
+"POT-Creation-Date: 2017-11-01 01:08+0900\n"
+"PO-Revision-Date: 2017-11-01 01:09+0900\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en_US\n"
@@ -65,43 +65,47 @@ msgstr ""
 msgid "Access Token"
 msgstr ""
 
-#: admin/index.php:122
+#: admin/index.php:123
+msgid "Latest Upload"
+msgstr ""
+
+#: admin/index.php:132
 msgid "S3 Upload"
 msgstr ""
 
-#: admin/index.php:130
+#: admin/index.php:140
 msgid "AWS credentials key"
 msgstr ""
 
-#: admin/index.php:138
+#: admin/index.php:148
 msgid "AWS credentials secret"
 msgstr ""
 
-#: admin/index.php:146
+#: admin/index.php:156
 msgid "Region"
 msgstr ""
 
-#: admin/index.php:168
+#: admin/index.php:178
 msgid "Select Region"
 msgstr ""
 
-#: admin/index.php:178
+#: admin/index.php:188
 msgid "Bucket name"
 msgstr ""
 
-#: admin/index.php:186
+#: admin/index.php:196
 msgid "The Path on S3"
 msgstr ""
 
-#: admin/index.php:194
+#: admin/index.php:204
 msgid "Custom URL (CDN)"
 msgstr ""
 
-#: admin/index.php:198
+#: admin/index.php:208
 msgid "Default:"
 msgstr ""
 
-#: admin/index.php:199
+#: admin/index.php:209
 msgid "without Trailing Slash"
 msgstr ""
 
