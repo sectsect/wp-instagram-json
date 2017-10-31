@@ -1,5 +1,8 @@
 # Change Log
 
+## [v1.1.1](https://github.com/sectsect/wp-instagram-json/tree/v1.1.1) (2017-10-31)
+[Full Changelog](https://github.com/sectsect/wp-instagram-json/compare/v1.1.0...v1.1.1)
+
 ## [v1.1.0](https://github.com/sectsect/wp-instagram-json/tree/v1.1.0) (2017-10-28)
 [Full Changelog](https://github.com/sectsect/wp-instagram-json/compare/v1.0.0...v1.1.0)
 
