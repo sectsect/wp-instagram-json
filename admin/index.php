@@ -117,6 +117,16 @@
 			<hr>
 			<table class="form-table">
 				<tbody>
+					<?php if ( get_option('wp_instagram_json_s3_enable') && get_option('wp_instagram_json_s3_latest_upload_datetime') ): ?>
+					<tr>
+						<th scope="row">
+							<label><?php _e( 'Latest Upload', 'wp_instagram_json' ); ?></label>
+						</th>
+						<td>
+							<?php echo esc_html( get_option('wp_instagram_json_s3_latest_upload_datetime') ); ?>
+						</td>
+					</tr>
+					<?php endif; ?>
 					<tr>
 						<th scope="row">
 							<label for="wp_instagram_json_aws_credentials_key"><?php _e( 'S3 Upload', 'wp_instagram_json' ); ?></label>

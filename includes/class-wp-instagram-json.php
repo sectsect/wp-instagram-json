@@ -33,9 +33,6 @@ class WP_Instagram_JSON {
 	 */
 	public function __construct() {
 		$this->generate_json_file();
-		if ( wp_instagram_json_is_s3() && file_exists( plugin_dir_path( dirname( __FILE__ ) ) . 'json/instagram.json' ) ) {
-			$this->put_object_to_s3();
-		}
 	}
 
 	/**
@@ -70,8 +67,10 @@ class WP_Instagram_JSON {
 				$filepath = plugin_dir_path( dirname( __FILE__ ) ) . 'json/instagram.json';
 				file_put_contents( $filepath, $obj );
 			}
-
 			set_transient( $tname, $date, 60 * get_option( 'wp_instagram_json_cache_time' ) );
+			if ( wp_instagram_json_is_s3() && file_exists( plugin_dir_path( dirname( __FILE__ ) ) . 'json/instagram.json' ) ) {
+				$this->put_object_to_s3();
+			}
 		}
 	}
 
@@ -103,5 +102,9 @@ class WP_Instagram_JSON {
 		$result = $result->toArray();
 		$object = json_decode( json_encode( $result ) );
 		$statuscode = $object->{'@metadata'}->statusCode;
+		$fileexists = $s3->doesObjectExist( $bucketname, $keyname );
+		if ( $statuscode === 200 && $fileexists ) {
+			update_option( 'wp_instagram_json_s3_latest_upload_datetime', date_i18n( 'Y/m/d H:i:s' ) );
+		}
 	}
 }
