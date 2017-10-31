@@ -103,7 +103,7 @@ class WP_Instagram_JSON {
 		$object = json_decode( json_encode( $result ) );
 		$statuscode = $object->{'@metadata'}->statusCode;
 		$fileexists = $s3->doesObjectExist( $bucketname, $keyname );
-		if ( $statuscode === 200 && $fileexists ) {
+		if ( 200 === $statuscode && $fileexists ) {
 			update_option( 'wp_instagram_json_s3_latest_upload_datetime', date_i18n( 'Y/m/d H:i:s' ) );
 		}
 	}
