@@ -277,23 +277,23 @@ const app = new Vue({
   el: '#app',
   data: {
     photos: [],
-    errors: []
+    errors: [],
   },
   created() {
     axios.get(wp_ig_json.json_url)
-    .then(response => {
-      if (response.status == '200') {
-        this.photos = response.data.data
-      }
-    })
-    .catch(e => {
-      this.errors.push(e)
-    })
+      .then((response) => {
+        if (response.status === 200) {
+          this.photos = response.data.data;
+        }
+      })
+      .catch((e) => {
+        this.errors.push(e);
+      });
   },
-  updated: function() {
+  updated() {
     jQuery('#instagram').addClass('ready');
-  }
-})
+  },
+});
 ```
 
 ## Change log  
