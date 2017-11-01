@@ -262,7 +262,7 @@ wp_enqueue_script('app', get_template_directory_uri() . '/assets/js/app.js', arr
 
 ```html
 <div id="app" v-cloak>
-  <ul id="instagram">
+  <ul id="instagram" :class='{"ready": readyclass !== null}'>
     <li v-for="photo in photos" v-bind:data-id="photo.id">
       <a v-bind:href="photo.link" target="_blank">
         <img v-bind:src="photo.images.standard_resolution.url" />
@@ -275,6 +275,9 @@ wp_enqueue_script('app', get_template_directory_uri() . '/assets/js/app.js', arr
 ```javascript
 const app = new Vue({
   el: '#app',
+  props: {
+    'readyclass': null,
+  },
   data: {
     photos: [],
     errors: [],
@@ -290,9 +293,7 @@ const app = new Vue({
         this.errors.push(e);
       });
   },
-  updated() {
-    jQuery('#instagram').addClass('ready');
-  },
+  updated() {},
 });
 ```
 
