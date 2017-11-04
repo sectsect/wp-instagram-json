@@ -297,6 +297,28 @@ const app = new Vue({
 });
 ```
 
+## AWS S3
+
+### IAM Role Policy
+
+Make a user on AWS, and attach the policy to the user.  
+The following are the required minimum policies.
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
 ## Change log  
 
 See [CHANGELOG](https://github.com/sectsect/wp-instagram-json/blob/master/CHANGELOG.md) file.
