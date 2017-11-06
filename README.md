@@ -217,6 +217,9 @@ In order to avoid those risks, this Plugin uses periodic processing for WordPres
 
 - This plugin internally uses [AWS SDK for PHP](https://github.com/aws/aws-sdk-php) v3.
 
+- AWS CloudFront Invalidation works only when `Delete cache` in manual.  
+It does not work when the cache expires.
+
 ## Usage Example
 
 :memo: If you host that file on AWS S3, you also need to configure `CORS`(Cross-Origin Resource Sharing) on S3.
