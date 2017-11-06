@@ -118,12 +118,12 @@ class WP_Instagram_JSON {
 	 * @return void "description".
 	 */
 	public function run_cf_invalidation() {
-		$client = new \Aws\CloudFront\CloudFrontClient([
+		$client   = new \Aws\CloudFront\CloudFrontClient([
 			'region'      => get_option( 'wp_instagram_json_s3_region' ),
 			'version'     => '2016-01-28',
 			'credentials' => [
-				'key'     => get_option( 'wp_instagram_json_aws_credentials_key' ),
-				'secret'  => get_option( 'wp_instagram_json_aws_credentials_secret' ),
+				'key'    => get_option( 'wp_instagram_json_aws_credentials_key' ),
+				'secret' => get_option( 'wp_instagram_json_aws_credentials_secret' ),
 			],
 		]);
 		$filepath = '/' . get_option( 'wp_instagram_json_s3_path' ) . '/instagram.json';
@@ -131,11 +131,11 @@ class WP_Instagram_JSON {
 			$filepath,
 		];
 		$result   = $client->createInvalidation([
-			'DistributionId'      => get_option( 'wp_instagram_json_cf_distribution_id' ),
-			'InvalidationBatch'   => [
+			'DistributionId'    => get_option( 'wp_instagram_json_cf_distribution_id' ),
+			'InvalidationBatch' => [
 				'Paths'           => [
-					'Quantity'    => count( $paths ),
-					'Items'       => $paths,
+					'Quantity' => count( $paths ),
+					'Items'    => $paths,
 				],
 				'CallerReference' => time(),
 			],
