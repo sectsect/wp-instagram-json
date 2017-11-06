@@ -69,6 +69,10 @@ via @ https://www.instagram.com/developer/sandbox/
   - The Path on S3
   - Custom URL (CDN)
 
+7. Furthermore, If you use AWS CloudFront Invalidation, fill in the following items (optional).
+  - CloudFront Invalidation `(ON/OFF Toggle)`
+  - Distribution ID
+
 That's it:ok_hand:  
 A file will be generated at the time of the first web access into the following location.  
 ```
@@ -215,6 +219,8 @@ In order to avoid those risks, this Plugin uses periodic processing for WordPres
 
 ## Usage Example
 
+:memo: If you host that file on AWS S3, you also need to configure `CORS`(Cross-Origin Resource Sharing) on S3.
+
 ### Ajax with jQuery
 
 ```html
@@ -312,6 +318,30 @@ The following are the required minimum policies.
             "Effect": "Allow",
             "Action": [
                 "s3:PutObject"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
+If you use AWS CloudFront Invalidation
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "s3:PutObject",
+                "cloudfront:CreateInvalidation",
+                "cloudfront:GetDistribution",
+                "cloudfront:GetInvalidation",
+                "cloudfront:GetStreamingDistribution",
+                "cloudfront:GetDistributionConfig",
+                "cloudfront:ListDistributions",
+                "cloudfront:ListInvalidations",
+                "cloudfront:ListStreamingDistributions"
             ],
             "Resource": "*"
         }

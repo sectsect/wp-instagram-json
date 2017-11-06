@@ -25,6 +25,8 @@
  * @package    WP_Instagram_JSON
  * @subpackage WP_Instagram_JSON/admin
  */
+
+use Aws\CloudFront\CloudFrontClient;
 ?>
 <div class="wrap">
 	<h1>Instagram Settings<span style="font-size: 10px; padding-left: 12px;">- For Instagram API -</span></h1>
@@ -129,7 +131,7 @@
 					<?php endif; ?>
 					<tr>
 						<th scope="row">
-							<label for="wp_instagram_json_aws_credentials_key"><?php _e( 'S3 Upload', 'wp_instagram_json' ); ?></label>
+							<label for="wp_instagram_json_s3_enable"><?php _e( 'S3 Upload', 'wp_instagram_json' ); ?></label>
 						</th>
 						<td>
 							<input type="checkbox" id="wp_instagram_json_s3_enable" class="regular-text" name="wp_instagram_json_s3_enable"<?php if ( get_option('wp_instagram_json_s3_enable') ): ?> checked<?php endif; ?> style="opacity: 0;">
@@ -207,6 +209,59 @@
 							<input type="text" id="wp_instagram_json_s3_custom_url" class="regular-text" name="wp_instagram_json_s3_custom_url" value="<?php echo esc_html( get_option('wp_instagram_json_s3_custom_url') ); ?>" style="width: 420px;">
 							<p style="font-size: 10px; color: #aaa;"><?php _e( 'Default:', 'wp_instagram_json' ); ?> https://{bucket}.s3.amazonaws.com</p>
 							<p style="font-size: 10px; color: #aaa;"><?php _e( 'without Trailing Slash', 'wp_instagram_json' ); ?></p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<h2>AWS CloudFront Settings</h2>
+			<hr>
+			<table class="form-table">
+				<tbody>
+					<?php
+					$client = new \Aws\CloudFront\CloudFrontClient([
+						'region'      => get_option( 'wp_instagram_json_s3_region' ),
+						'version'     => '2016-01-28',
+						'credentials' => [
+							'key'     => get_option( 'wp_instagram_json_aws_credentials_key' ),
+							'secret'  => get_option( 'wp_instagram_json_aws_credentials_secret' ),
+						],
+					]);
+					$listresult = $client->listInvalidations([
+						'DistributionId' => get_option( 'wp_instagram_json_cf_distribution_id' ),
+					]);
+					$items       = $listresult->search('InvalidationList.Items');
+					$item        = reset($items);
+					$time        = $item['CreateTime'];
+					$wp_timezone = get_option( 'timezone_string' );
+					$time->setTimezone( new DateTimeZone('Asia/Tokyo') );
+					if ( get_option('wp_instagram_json_cf_enable') && $time->format('Y/m/d H:i:s') ):
+					?>
+					<tr>
+						<th scope="row">
+							<label for="wp_instagram_json_cf_enable"><?php _e( 'Latest Invalidation', 'wp_instagram_json' ); ?></label>
+						</th>
+						<td>
+							<?php echo $time->format('Y/m/d H:i:s'); ?>
+						</td>
+					</tr>
+					<?php endif; ?>
+					<tr>
+						<th scope="row">
+							<label for="wp_instagram_json_cf_enable"><?php _e( 'CloudFront Invalidation', 'wp_instagram_json' ); ?></label>
+						</th>
+						<td>
+							<input type="checkbox" id="wp_instagram_json_cf_enable" class="regular-text" name="wp_instagram_json_cf_enable"<?php if ( get_option('wp_instagram_json_cf_enable') ): ?> checked<?php endif; ?> style="opacity: 0;">
+							<p style="font-size: 10px; color: #aaa;"><?php _e( '"S3 Upload" must be enabled.', 'wp_instagram_json' ); ?></p>
+							<p style="font-size: 10px; color: #aaa;"><?php _e( 'If this field is enable, the "CloudFront Invalidation" process runs in the "Delete Cache" process.', 'wp_instagram_json' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th scope="row">
+							<label for="wp_instagram_json_cf_distribution_id"><?php _e( 'Distribution ID', 'wp_instagram_json' ); ?></label>
+						</th>
+						<td>
+							<input type="text" id="wp_instagram_json_cf_distribution_id" class="regular-text" name="wp_instagram_json_cf_distribution_id" value="<?php echo esc_html( get_option('wp_instagram_json_cf_distribution_id') ); ?>" style="width: 170px;">
 						</td>
 					</tr>
 				</tbody>
