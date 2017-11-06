@@ -27,6 +27,36 @@
  */
 
 use Aws\CloudFront\CloudFrontClient;
+
+/**
+ * Run AWS CloudFront Invalidation.
+ *
+ * @return void "description".
+ */
+function run_cf_invalidation() {
+	$client = new \Aws\CloudFront\CloudFrontClient([
+		'region'      => get_option( 'wp_instagram_json_s3_region' ),
+		'version'     => '2016-01-28',
+		'credentials' => [
+			'key'     => get_option( 'wp_instagram_json_aws_credentials_key' ),
+			'secret'  => get_option( 'wp_instagram_json_aws_credentials_secret' ),
+		],
+	]);
+	$filepath = '/' . get_option( 'wp_instagram_json_s3_path' ) . '/instagram.json';
+	$paths    = [
+		$filepath,
+	];
+	$result   = $client->createInvalidation([
+		'DistributionId'      => get_option( 'wp_instagram_json_cf_distribution_id' ),
+		'InvalidationBatch'   => [
+			'Paths'           => [
+				'Quantity'    => count( $paths ),
+				'Items'       => $paths,
+			],
+			'CallerReference' => time(),
+		],
+	]);
+}
 ?>
 <div class="wrap">
 	<h1>Instagram Settings<span style="font-size: 10px; padding-left: 12px;">- For Instagram API -</span></h1>
@@ -36,6 +66,9 @@ use Aws\CloudFront\CloudFrontClient;
 			global $wpdb;
 			$result1 = $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE ('_transient_wp_instagram_json%')" );
 			$result2 = $wpdb->query( "DELETE FROM `$wpdb->options` WHERE `option_name` LIKE ('_transient_timeout_wp_instagram_json%')" );
+			if ( wp_instagram_json_is_cf() ) {
+				run_cf_invalidation();
+			}
 			if ( $result1 && $result2 ) :
 		?>
 			<div id="setting-error-settings_updated" class="updated settings-error notice is-dismissible">
