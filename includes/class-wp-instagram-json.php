@@ -12,6 +12,7 @@
 use Aws\S3\S3Client;
 use Aws\Exception\AwsException;
 use Aws\S3\Exception\S3Exception;
+use Aws\CloudFront\CloudFrontClient;
 
 /**
  * Fired during plugin activation.
@@ -70,6 +71,9 @@ class WP_Instagram_JSON {
 			set_transient( $tname, $date, 60 * get_option( 'wp_instagram_json_cache_time' ) );
 			if ( wp_instagram_json_is_s3() && file_exists( plugin_dir_path( dirname( __FILE__ ) ) . 'json/instagram.json' ) ) {
 				$this->put_object_to_s3();
+				if ( wp_instagram_json_is_cf() ) {
+					$this->run_cf_invalidation();
+				}
 			}
 		}
 	}
@@ -106,5 +110,35 @@ class WP_Instagram_JSON {
 		if ( 200 === $statuscode && $fileexists ) {
 			update_option( 'wp_instagram_json_s3_latest_upload_datetime', date_i18n( 'Y/m/d H:i:s' ) );
 		}
+	}
+
+	/**
+	 * Run AWS CloudFront Invalidation.
+	 *
+	 * @return void "description".
+	 */
+	public function run_cf_invalidation() {
+		$client = new \Aws\CloudFront\CloudFrontClient([
+			'region'      => get_option( 'wp_instagram_json_s3_region' ),
+			'version'     => '2016-01-28',
+			'credentials' => [
+				'key'     => get_option( 'wp_instagram_json_aws_credentials_key' ),
+				'secret'  => get_option( 'wp_instagram_json_aws_credentials_secret' ),
+			],
+		]);
+		$filepath = '/' . get_option( 'wp_instagram_json_s3_path' ) . '/instagram.json';
+		$paths    = [
+			$filepath,
+		];
+		$result   = $client->createInvalidation([
+			'DistributionId'      => get_option( 'wp_instagram_json_cf_distribution_id' ),
+			'InvalidationBatch'   => [
+				'Paths'           => [
+					'Quantity'    => count( $paths ),
+					'Items'       => $paths,
+				],
+				'CallerReference' => time(),
+			],
+		]);
 	}
 }

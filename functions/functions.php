@@ -38,6 +38,19 @@ function wp_instagram_json_is_s3() {
 }
 
 /**
+ * Detect the enable CloudFront Invalidation.
+ *
+ * @return boolean "description".
+ */
+function wp_instagram_json_is_cf() {
+	$cf_enable = get_option( 'wp_instagram_json_cf_enable' );
+	$cf_id     = get_option( 'wp_instagram_json_cf_distribution_id' );
+	$bool      = ( wp_instagram_json_is_s3() && $cf_enable && $cf_id ) ? true : false;
+
+	return $bool;
+}
+
+/**
  * Set script tag for json file url.
  *
  * @return void "description".

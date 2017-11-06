@@ -76,6 +76,8 @@ function register_wp_instagram_json_settings() {
 	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_s3_bucket');
 	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_s3_path');
 	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_s3_custom_url');
+	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_cf_enable');
+	register_setting('wp_instagram_json-settings-group', 'wp_instagram_json_cf_distribution_id');
 }
 
 /**
