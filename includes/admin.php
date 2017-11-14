@@ -33,7 +33,7 @@ add_action('admin_menu', 'wp_instagram_json_menu');
  * @return void "description".
  */
 function wp_instagram_json_menu() {
-	$page_hook_suffix = add_menu_page('Instagram', 'Instagram', 5, 'instagram_menu', 'wp_instagram_json_options_page');
+	$page_hook_suffix = add_menu_page('Instagram', 'Instagram', 'edit_pages', 'instagram_menu', 'wp_instagram_json_options_page');
 	add_action('admin_print_styles-' . $page_hook_suffix, 'wp_instagram_json_admin_styles');
     add_action('admin_print_scripts-' . $page_hook_suffix, 'wp_instagram_json_admin_scripts');
 	add_action('admin_init', 'register_wp_instagram_json_settings');
