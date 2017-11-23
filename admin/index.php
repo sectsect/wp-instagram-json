@@ -252,23 +252,24 @@ function run_cf_invalidation() {
 			<table class="form-table">
 				<tbody>
 					<?php
-					$client = new \Aws\CloudFront\CloudFrontClient([
-						'region'      => get_option( 'wp_instagram_json_s3_region' ),
-						'version'     => '2016-01-28',
-						'credentials' => [
-							'key'     => get_option( 'wp_instagram_json_aws_credentials_key' ),
-							'secret'  => get_option( 'wp_instagram_json_aws_credentials_secret' ),
-						],
-					]);
-					$listresult = $client->listInvalidations([
-						'DistributionId' => get_option( 'wp_instagram_json_cf_distribution_id' ),
-					]);
-					$items       = $listresult->search('InvalidationList.Items');
-					$item        = reset($items);
-					$time        = $item['CreateTime'];
-					$wp_timezone = get_option( 'timezone_string' );
-					$time->setTimezone( new DateTimeZone('Asia/Tokyo') );
-					if ( get_option('wp_instagram_json_cf_enable') && $time->format('Y/m/d H:i:s') ):
+					if ( wp_instagram_json_is_s3() && file_exists( plugin_dir_path( dirname( __FILE__ ) ) . 'json/instagram.json' ) ):
+						$client = new \Aws\CloudFront\CloudFrontClient([
+							'region'      => get_option( 'wp_instagram_json_s3_region' ),
+							'version'     => '2016-01-28',
+							'credentials' => [
+								'key'     => get_option( 'wp_instagram_json_aws_credentials_key' ),
+								'secret'  => get_option( 'wp_instagram_json_aws_credentials_secret' ),
+							],
+						]);
+						$listresult = $client->listInvalidations([
+							'DistributionId' => get_option( 'wp_instagram_json_cf_distribution_id' ),
+						]);
+						$items       = $listresult->search('InvalidationList.Items');
+						$item        = reset($items);
+						$time        = $item['CreateTime'];
+						$wp_timezone = get_option( 'timezone_string' );
+						$time->setTimezone( new DateTimeZone('Asia/Tokyo') );
+						if ( get_option('wp_instagram_json_cf_enable') && $time->format('Y/m/d H:i:s') ):
 					?>
 					<tr>
 						<th scope="row">
@@ -278,7 +279,10 @@ function run_cf_invalidation() {
 							<?php echo $time->format('Y/m/d H:i:s'); ?>
 						</td>
 					</tr>
-					<?php endif; ?>
+					<?php
+						endif;
+					endif;
+					?>
 					<tr>
 						<th scope="row">
 							<label for="wp_instagram_json_cf_enable"><?php _e( 'CloudFront Invalidation', 'wp_instagram_json' ); ?></label>
