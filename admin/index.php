@@ -252,7 +252,7 @@ function run_cf_invalidation() {
 			<table class="form-table">
 				<tbody>
 					<?php
-					if ( wp_instagram_json_is_s3() && file_exists( plugin_dir_path( dirname( __FILE__ ) ) . 'json/instagram.json' ) ):
+					if ( wp_instagram_json_is_s3() && get_option( 'wp_instagram_json_cf_distribution_id' ) ):
 						$client = new \Aws\CloudFront\CloudFrontClient([
 							'region'      => get_option( 'wp_instagram_json_s3_region' ),
 							'version'     => '2016-01-28',
@@ -288,7 +288,7 @@ function run_cf_invalidation() {
 							<label for="wp_instagram_json_cf_enable"><?php _e( 'CloudFront Invalidation', 'wp_instagram_json' ); ?></label>
 						</th>
 						<td>
-							<input type="checkbox" id="wp_instagram_json_cf_enable" class="regular-text" name="wp_instagram_json_cf_enable"<?php if ( get_option('wp_instagram_json_cf_enable') ): ?> checked<?php endif; ?> style="opacity: 0;">
+							<input type="checkbox" id="wp_instagram_json_cf_enable" class="regular-text" name="wp_instagram_json_cf_enable"<?php if ( get_option('wp_instagram_json_cf_enable') ): ?> checked<?php endif; ?> style="opacity: 0;"<?php if ( ! wp_instagram_json_is_s3() ): ?> disabled="disabled"<?php endif; ?>>
 							<p style="font-size: 10px; color: #aaa;"><?php _e( '"S3 Upload" must be enabled.', 'wp_instagram_json' ); ?></p>
 							<p style="font-size: 10px; color: #aaa;"><?php _e( 'If this field is enable, the "CloudFront Invalidation" process runs in the "Delete Cache" process.', 'wp_instagram_json' ); ?></p>
 						</td>
@@ -298,7 +298,7 @@ function run_cf_invalidation() {
 							<label for="wp_instagram_json_cf_distribution_id"><?php _e( 'Distribution ID', 'wp_instagram_json' ); ?></label>
 						</th>
 						<td>
-							<input type="text" id="wp_instagram_json_cf_distribution_id" class="regular-text" name="wp_instagram_json_cf_distribution_id" value="<?php echo esc_html( get_option('wp_instagram_json_cf_distribution_id') ); ?>" style="width: 170px;">
+							<input type="text" id="wp_instagram_json_cf_distribution_id" class="regular-text" name="wp_instagram_json_cf_distribution_id" value="<?php echo esc_html( get_option('wp_instagram_json_cf_distribution_id') ); ?>" style="width: 170px;"<?php if ( ! wp_instagram_json_is_s3() ): ?> readonly="readonly"<?php endif; ?>>
 						</td>
 					</tr>
 				</tbody>
