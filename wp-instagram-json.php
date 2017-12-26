@@ -7,7 +7,7 @@
  * Author URI:      https://www.ilovesect.com/
  * Text Domain:     wp-instagram-json
  * Domain Path:     /languages
- * Version:         1.1.2
+ * Version:         1.1.3
  *
  * @package         WP_Instagram_JSON
  */
