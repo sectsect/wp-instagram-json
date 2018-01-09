@@ -262,13 +262,6 @@ jQuery(function() {
 
 ### Ajax with Vue.js
 
-```php
-// functions.php
-wp_enqueue_script('vue', 'https://unpkg.com/vue@2.5.2/dist/vue.min.js', array());
-wp_enqueue_script('axios', 'https://unpkg.com/axios@0.16.2/dist/axios.min.js', array('vue'));
-wp_enqueue_script('app', get_template_directory_uri() . '/assets/js/app.js', array('axios'), null, true);
-```
-
 ```html
 <div id="app" v-cloak>
   <ul id="instagram" :class='{"ready": readyclass !== null}'>
@@ -282,6 +275,9 @@ wp_enqueue_script('app', get_template_directory_uri() . '/assets/js/app.js', arr
 ```
 
 ```javascript
+import Vue from 'vue';
+import axios from 'axios';
+
 const app = new Vue({
   el: '#app',
   props: {
@@ -294,13 +290,43 @@ const app = new Vue({
   created() {
     axios.get(wp_ig_json.json_url)
       .then((response) => {
-        if (response.status === 200) {
+        if (response.status === 200 && response.data.data.length > 0) {
           this.photos = response.data.data;
         }
       })
       .catch((e) => {
         this.errors.push(e);
       });
+  },
+  updated() {},
+});
+```
+
+#### async / await version
+```javascript
+import Vue from 'vue';
+import axios from 'axios';
+
+const app = new Vue({
+  el: '#app',
+  props: {
+    'readyclass': null,
+  },
+  data: {
+    photos: [],
+    errors: [],
+  },
+  async created() {
+    try {
+      const response = await axios.get(wp_ig_json.json_url);
+      if (response.status === 200 && response.data.data.length > 0) {
+        this.photos = response.data.data;
+      } else {
+        console.log('Error!!');
+      }
+    } catch (e) {
+      this.errors.push(e);
+    }
   },
   updated() {},
 });
