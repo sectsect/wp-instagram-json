@@ -94,12 +94,14 @@ class WP_Instagram_JSON {
 		$bucketname = get_option( 'wp_instagram_json_s3_bucket' );
 		$keyname    = get_option( 'wp_instagram_json_s3_path' ) . '/instagram.json';
 		$srcfile    = plugin_dir_path( dirname( __FILE__ ) ) . 'json/instagram.json';
-		$result     = $s3->putObject([
-			'Bucket'      => $bucketname,
-			'Key'         => $keyname,
-			'SourceFile'  => $srcfile,
-			'ContentType' => 'application/json',
-		]);
+		$result     = $s3->putObject(
+			[
+				'Bucket'      => $bucketname,
+				'Key'         => $keyname,
+				'SourceFile'  => $srcfile,
+				'ContentType' => 'application/json',
+			]
+		);
 		$result     = $result->toArray();
 		$object     = json_decode( json_encode( $result ) );
 		$statuscode = $object->{'@metadata'}->statusCode;
