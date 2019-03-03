@@ -224,7 +224,7 @@ It does not work when the cache expires.
 
 :memo: If you host that file on AWS S3, you also need to configure `CORS`(Cross-Origin Resource Sharing) on S3.
 
-### Ajax with jQuery
+### Ajax with jQuery (ES6)
 
 ```html
 <div id="app">
@@ -233,28 +233,27 @@ It does not work when the cache expires.
 ```
 
 ```javascript
-jQuery(function() {
+jQuery(() => {
   jQuery.ajax({
-    url       : wp_ig_json.json_url,
-    type      : "GET",
-    dataType  : 'json',
-    beforeSend: function() {}
-  }).done(function(res) {
+    url: wp_ig_json.json_url,
+    type: "GET",
+    dataType: 'json',
+    beforeSend() {}
+  }).done(res => {
     if (res && res.data) {
       let list = '';
-      jQuery.each(res.data, function(i, photo) {
-        let html = '<li data-id="' + photo.id + '">';
-        html += '<a href="' + photo.link + '" target="_blank">';
-        html += '<img src="' + photo.images.standard_resolution.url + '" />';
-        html += '</a>';
-        html += '</li>';
-        list += html;
+      jQuery.each(res.data, (i, {id, link, images}) => {
+        list += `<li data-id="${id}">
+                  <a href="${link}" target="_blank">
+                    <img src="${images.standard_resolution.url}">
+                  </a>
+                </li>`;
       });
       jQuery('#instagram').html(list);
     }
-  }).fail(function() {
+  }).fail(() => {
     alert("Load Error. Please Reload...");
-  }).always(function(res) {
+  }).always(res => {
     jQuery('#instagram').addClass('ready');
   });
 });
